@@ -5,14 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CenaLonga · la cena sul corso — Amandola, 3 luglio 2026</title>
 <meta name="description" content="CenaLonga, la cena sul corso di Amandola. Una sola tavolata lunga tutto il corso: buon cibo, musica live, artisti di strada, dj set e cocktail fino a tarda notte. Venerdì 3 luglio 2026.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="assets/cenalonga-logo.svg">
+<meta name="theme-color" content="#070B13">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="CenaLonga">
+<meta property="og:title" content="CenaLonga · la cena sul corso — Amandola, 3 luglio 2026">
+<meta property="og:description" content="Una sola tavolata lunga tutto il corso di Amandola: buon cibo, musica live, artisti di strada, dj set e cocktail fino a tarda notte. Venerdì 3 luglio 2026.">
+<meta property="og:url" content="https://tomthias.github.io/cenalonga/">
+<meta property="og:image" content="https://tomthias.github.io/cenalonga/assets/photo-aerial-dusk.jpeg">
+<meta property="og:image:width" content="4000">
+<meta property="og:image:height" content="2250">
+<meta property="og:image:alt" content="La lunga tavolata illuminata lungo il corso di Amandola al tramonto">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CenaLonga · la cena sul corso">
+<meta name="twitter:description" content="Una sola tavolata lunga tutto il corso di Amandola. Venerdì 3 luglio 2026.">
+<meta name="twitter:image" content="https://tomthias.github.io/cenalonga/assets/photo-aerial-dusk.jpeg">
+
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
 <!-- ===================== HEADER ===================== -->
 <header class="site-header">
-  <a href="#top" aria-label="CenaLonga — home"><img class="logo-mark" src="assets/cenalonga-logo.svg" alt="CenaLonga"></a>
-  <nav class="nav-links" aria-label="Sezioni">
+  <a href="#top" class="brand-link" aria-label="CenaLonga — home"><img class="logo-mark" src="assets/cenalonga-logo.svg" alt="CenaLonga"></a>
+  <nav class="nav-links" id="nav-links" aria-label="Sezioni">
     <a href="#cosa">Cos’è</a>
     <a href="#programma">Programma</a>
     <a href="#menu">Menù</a>
@@ -20,6 +45,11 @@
     <a href="#prenota">Prenota</a>
   </nav>
   <a id="header-cta" class="btn btn-primary header-cta" href="#prenota">Prenota</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Apri il menu" aria-expanded="false" aria-controls="nav-links">
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+  </button>
 </header>
 
 <span id="top"></span>
@@ -163,7 +193,7 @@
       <div class="eyebrow">Informazioni</div>
       <h2 style="margin-top:18px">Tutto quello che serve sapere</h2>
     </div>
-    <div class="info-grid reveal">
+    <div class="info-grid reveal" data-stagger>
       <div class="info-cell">
         <span class="label">Dove</span>
         <span class="big">Via Indipendenza</span>
@@ -239,7 +269,7 @@
 <!-- ===================== FOOTER ===================== -->
 <footer class="site-footer">
   <div class="wrap">
-    <div class="foot-grid">
+    <div class="foot-grid reveal" data-stagger>
       <div class="foot-col">
         <img class="foot-logo" src="assets/cenalonga-logo.svg" alt="CenaLonga">
         <p style="max-width:34ch">La cena sul corso di Amandola. Una sera, una tavolata, tutto il paese.</p>

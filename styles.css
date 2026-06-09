@@ -389,3 +389,85 @@ section{position:relative}
   .price-row .divider{display:none}
   .foot-bottom{flex-direction:column;align-items:flex-start}
 }
+
+/* ============================================================
+   UI ENHANCEMENTS — focus, progress, mobile nav, scrollspy, stagger
+   ============================================================ */
+
+/* ---------- keyboard focus ---------- */
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.btn:focus-visible{outline-offset:4px}
+.faq-q:focus-visible,.nav-links a:focus-visible{outline-offset:5px}
+
+/* ---------- scroll progress bar ---------- */
+.scroll-progress{
+  position:fixed;top:0;left:0;right:0;height:2px;z-index:60;
+  background:linear-gradient(90deg,var(--gold-2),var(--gold));
+  transform:scaleX(0);transform-origin:left;will-change:transform;
+}
+
+/* ---------- active nav (scrollspy) ---------- */
+.nav-links a.active{color:var(--cream)}
+.nav-links a.active::after{right:0}
+
+/* ---------- timeline hover accent ---------- */
+.tl-row{position:relative}
+.tl-row::before{
+  content:"";position:absolute;left:calc(var(--pad) * -0.4);top:50%;
+  width:3px;height:58%;border-radius:2px;background:var(--gold);
+  transform:translateY(-50%) scaleY(0);transform-origin:center;
+  transition:transform .3s ease;
+}
+.tl-row:hover::before{transform:translateY(-50%) scaleY(1)}
+
+/* ---------- staggered reveal ---------- */
+.reveal[data-stagger]{opacity:1;transform:none}
+[data-stagger] > *{
+  opacity:0;transform:translateY(20px);
+  transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);
+}
+[data-stagger].in > *{opacity:1;transform:none}
+
+/* ---------- mobile nav (hamburger) ---------- */
+.nav-toggle{
+  display:none;position:relative;z-index:60;
+  width:44px;height:44px;border:1px solid var(--line-strong);border-radius:999px;
+  background:rgba(7,11,19,.4);cursor:pointer;
+  align-items:center;justify-content:center;flex-direction:column;gap:5px;
+  transition:border-color .25s,background .25s;
+}
+.nav-toggle:hover{border-color:var(--cream)}
+.nav-toggle-bar{display:block;width:18px;height:1.6px;background:var(--cream);border-radius:2px;transition:transform .3s ease,opacity .2s ease}
+.site-header.nav-open .nav-toggle-bar:nth-child(1){transform:translateY(6.6px) rotate(45deg)}
+.site-header.nav-open .nav-toggle-bar:nth-child(2){opacity:0}
+.site-header.nav-open .nav-toggle-bar:nth-child(3){transform:translateY(-6.6px) rotate(-45deg)}
+
+@media (max-width:920px){
+  .nav-toggle{display:flex}
+  .header-cta{display:none}
+  .site-header .brand-link{position:relative;z-index:60}
+  .nav-links{
+    display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;
+    position:fixed;left:0;right:0;top:0;
+    padding:108px var(--pad) 48px;
+    background:rgba(7,11,19,.97);backdrop-filter:blur(18px) saturate(1.2);
+    border-bottom:1px solid var(--line);
+    transform:translateY(-100%);opacity:0;visibility:hidden;
+    transition:transform .42s cubic-bezier(.2,.7,.2,1),opacity .3s ease,visibility .42s;
+  }
+  .site-header.nav-open .nav-links{transform:none;opacity:1;visibility:visible}
+  .nav-links a{
+    width:100%;padding:12px 0;
+    font-family:var(--serif);font-weight:360;font-size:clamp(1.5rem,7vw,2rem);
+    color:var(--cream);border-bottom:1px solid var(--line);
+  }
+  .nav-links a:last-child{border-bottom:0;color:var(--gold)}
+  .nav-links a::after{display:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .scroll-progress{display:none}
+  [data-stagger] > *{opacity:1;transform:none;transition:none}
+  .nav-links{transition:none}
+  .tl-row::before{transition:none}
+}
