@@ -76,7 +76,7 @@
       bookingEl.classList.add('is-before');
       statusTextEl.textContent = 'Prenotazioni · aprono il 20 giugno';
       headlineEl.innerHTML = 'Le prenotazioni aprono<br><span class="script gold">tra poco</span>';
-      subEl.innerHTML = 'I posti sono limitati. Le prenotazioni apriranno <b>sabato 20 giugno</b> e si chiuderanno il <b>2 luglio</b>, tutte tramite Eventbrite. Torna qui o segnati la data.';
+      subEl.innerHTML = 'I posti sono limitati. Le prenotazioni apriranno <b>sabato 20 giugno</b> e si chiuderanno il <b>2 luglio</b>: online su Eventbrite oppure di persona all’<b>Ufficio Turistico di Amandola</b>, senza costi di commissione. Torna qui o segnati la data.';
       cdCapEl.textContent = 'All\u2019apertura delle prenotazioni';
       cdEl.style.display = '';
       renderCountdown(cdEl, CFG.openAt);
@@ -84,12 +84,12 @@
       ctaEl.setAttribute('aria-disabled', 'true');
       ctaEl.removeAttribute('href');
       ctaEl.classList.remove('btn-primary'); ctaEl.classList.add('btn-ghost');
-      noteEl.innerHTML = 'Prenotazioni gestite su Eventbrite, tramite <a href="https://cenalongamandola.com">cenalongamandola.com</a>.';
+      noteEl.innerHTML = 'Online su Eventbrite, tramite <a href="https://cenalongamandola.com">cenalongamandola.com</a>, oppure all’Ufficio Turistico di Amandola, senza commissioni.';
     } else if (state === 'open') {
       bookingEl.classList.add('is-open');
       statusTextEl.textContent = 'Prenotazioni aperte';
       headlineEl.innerHTML = 'Prenota il tuo posto<br><span class="script gold">alla tavolata</span>';
-      subEl.innerHTML = 'Le prenotazioni sono <b>aperte</b> e si chiudono il <b>2 luglio</b>. Posti limitati: meglio non aspettare. La prenotazione avviene su Eventbrite.';
+      subEl.innerHTML = 'Le prenotazioni sono <b>aperte</b> e si chiudono il <b>2 luglio</b>. Posti limitati: meglio non aspettare. Prenoti online su Eventbrite oppure di persona all’<b>Ufficio Turistico di Amandola</b>, senza costi di commissione.';
       cdCapEl.textContent = 'Alla chiusura delle prenotazioni';
       cdEl.style.display = '';
       renderCountdown(cdEl, CFG.closeAt);
@@ -99,7 +99,7 @@
       ctaEl.setAttribute('target', '_blank');
       ctaEl.setAttribute('rel', 'noopener');
       ctaEl.classList.remove('btn-ghost'); ctaEl.classList.add('btn-primary');
-      noteEl.innerHTML = 'Adulti 30€ · Bambini 15€ — pagamento su Eventbrite.';
+      noteEl.innerHTML = 'Adulti 30€ · Bambini 15€ — su Eventbrite o all’Ufficio Turistico di Amandola, senza commissioni.';
     } else {
       bookingEl.classList.add('is-closed');
       statusTextEl.textContent = 'Prenotazioni chiuse';
