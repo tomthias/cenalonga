@@ -1,0 +1,9 @@
+# Dev / preview tooling (not part of the published site)
+tweaks-panel.jsx
+CenaLonga.html
+
+# Unreferenced duplicate images
+uploads/
+
+# OS cruft
+.DS_Store
