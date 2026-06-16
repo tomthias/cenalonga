@@ -9,8 +9,45 @@
     openAt:  new Date('2026-06-20T00:00:00'), // prenotazioni aprono
     closeAt: new Date('2026-07-02T23:59:59'), // prenotazioni chiudono
     eventAt: new Date('2026-07-03T20:30:00'), // la cena
-    eventbriteUrl: 'https://www.eventbrite.it/'  // PLACEHOLDER — sostituire con il link reale
+    // Eventbrite: incolla l'ID NUMERICO dell'evento (lo trovi nell'URL dell'evento
+    // pubblicato: .../e/nome-evento-tickets-123456789 -> eventId = '123456789').
+    // Se compilato, il checkout si apre in un pop-up sul sito. Se vuoto, si usa il link sotto.
+    eventbriteEventId: '',
+    eventbriteUrl: 'https://www.eventbrite.it/'  // PLACEHOLDER — link di riserva all'evento
   };
+
+  // ---- Eventbrite Embedded Checkout ----------------------------------------
+  var ebScriptState = 0; // 0 = non caricato, 1 = in caricamento, 2 = pronto
+  var ebInited = {};
+  function loadEbScript(cb) {
+    if (window.EBWidgets) { ebScriptState = 2; cb(); return; }
+    if (ebScriptState === 1) {
+      var poll = setInterval(function () {
+        if (window.EBWidgets) { clearInterval(poll); ebScriptState = 2; cb(); }
+      }, 120);
+      return;
+    }
+    ebScriptState = 1;
+    var s = document.createElement('script');
+    s.src = 'https://www.eventbrite.com/static/widgets/eb_widgets.js';
+    s.async = true;
+    s.onload = function () { ebScriptState = 2; cb(); };
+    document.head.appendChild(s);
+  }
+  function initEbTrigger(id) {
+    if (!CFG.eventbriteEventId || ebInited[id]) return;
+    if (!document.getElementById(id)) return;
+    ebInited[id] = true;
+    loadEbScript(function () {
+      window.EBWidgets.createWidget({
+        widgetType: 'checkout',
+        eventId: CFG.eventbriteEventId,
+        modal: true,
+        modalTriggerElementId: id,
+        onOrderComplete: function () {}
+      });
+    });
+  }
 
   // booking state can be forced for preview via the Tweaks panel:
   // window.__cenaOverride = 'auto' | 'before' | 'open' | 'closed'
@@ -95,10 +132,21 @@
       renderCountdown(cdEl, CFG.closeAt);
       ctaEl.innerHTML = 'Prenota su Eventbrite <span aria-hidden="true">\u2192</span>';
       ctaEl.removeAttribute('aria-disabled');
-      ctaEl.setAttribute('href', CFG.eventbriteUrl);
-      ctaEl.setAttribute('target', '_blank');
-      ctaEl.setAttribute('rel', 'noopener');
       ctaEl.classList.remove('btn-ghost'); ctaEl.classList.add('btn-primary');
+      if (CFG.eventbriteEventId) {
+        // checkout in pop-up sul sito
+        ctaEl.removeAttribute('href');
+        ctaEl.removeAttribute('target');
+        ctaEl.removeAttribute('rel');
+        ctaEl.setAttribute('role', 'button');
+        ctaEl.style.cursor = 'pointer';
+        initEbTrigger('b-cta');
+      } else {
+        // riserva: link all'evento su Eventbrite
+        ctaEl.setAttribute('href', CFG.eventbriteUrl);
+        ctaEl.setAttribute('target', '_blank');
+        ctaEl.setAttribute('rel', 'noopener');
+      }
       noteEl.innerHTML = 'Adulti 30€ · Bambini 15€. Paghi su Eventbrite o all’Ufficio Turistico di Amandola, senza commissioni.';
     } else {
       bookingEl.classList.add('is-closed');
@@ -132,8 +180,16 @@
     var state = resolveState();
     if (state === 'open') {
       headerCta.textContent = 'Prenota';
-      headerCta.setAttribute('href', CFG.eventbriteUrl);
-      headerCta.setAttribute('target', '_blank'); headerCta.setAttribute('rel','noopener');
+      if (CFG.eventbriteEventId) {
+        headerCta.removeAttribute('href');
+        headerCta.removeAttribute('target'); headerCta.removeAttribute('rel');
+        headerCta.setAttribute('role', 'button');
+        headerCta.style.cursor = 'pointer';
+        initEbTrigger('header-cta');
+      } else {
+        headerCta.setAttribute('href', CFG.eventbriteUrl);
+        headerCta.setAttribute('target', '_blank'); headerCta.setAttribute('rel','noopener');
+      }
       headerCta.style.display = '';
     } else {
       headerCta.textContent = 'Prenota';
