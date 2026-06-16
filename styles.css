@@ -261,36 +261,6 @@ section{position:relative}
 .tl-body p{max-width:52ch}
 
 /* ============================================================
-   GALLERIA carosello
-   ============================================================ */
-.gallery-section{padding-block:clamp(40px,5vw,72px)}
-.gallery-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.gallery-intro{margin-top:10px;font-size:.95rem;color:var(--cream-dim)}
-.gallery-nav{display:flex;gap:8px}
-.gallery-btn{
-  width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;
-  color:var(--cream-dim);display:flex;align-items:center;justify-content:center;cursor:pointer;
-  transition:border-color .25s ease,color .25s ease,opacity .25s ease;
-}
-.gallery-btn:hover{border-color:var(--gold);color:var(--gold)}
-.gallery-btn:disabled{opacity:.25;cursor:default;border-color:var(--line);color:var(--cream-dim)}
-.gallery-track{
-  display:flex;gap:clamp(10px,1.4vw,16px);margin-top:clamp(18px,2.4vw,28px);
-  overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
-  padding-bottom:6px;-webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-}
-.gallery-track::-webkit-scrollbar{display:none}
-.gallery-track:focus-visible{outline:2px solid var(--gold);outline-offset:6px;border-radius:6px}
-.gallery-slide{
-  flex:0 0 auto;width:clamp(170px,20vw,220px);margin:0;scroll-snap-align:start;
-  border:1px solid var(--line);border-radius:5px;overflow:hidden;background:var(--navy-2);
-}
-.gallery-slide img{
-  display:block;width:100%;height:clamp(220px,26vw,290px);object-fit:cover;
-}
-
-/* ============================================================
    MENÙ card
    ============================================================ */
 .menu-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(34px,5vw,72px);align-items:center}
@@ -434,9 +404,6 @@ section{position:relative}
   .info-grid{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr;gap:44px}
   .tl-row{grid-template-columns:1fr;gap:8px}
-  .gallery-nav{display:none}
-  .gallery-track{scroll-padding-left:var(--pad);margin-left:calc(var(--pad)*-1);margin-right:calc(var(--pad)*-1);padding-left:var(--pad);padding-right:var(--pad)}
-  .gallery-slide{width:52vw}
 }
 @media (max-width:520px){
   .hero-meta{font-size:1.02rem;gap:10px}
