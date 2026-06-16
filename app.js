@@ -243,4 +243,31 @@
   window.addEventListener('resize', function () {
     document.querySelectorAll('.faq-item.open .faq-a').forEach(function (a) { a.style.maxHeight = a.scrollHeight + 'px'; });
   });
+
+  // ---- gallery carousel -----------------------------------------------------
+  var gTrack = document.getElementById('gallery-track');
+  if (gTrack) {
+    var gPrev = document.getElementById('gallery-prev');
+    var gNext = document.getElementById('gallery-next');
+    var step = function () {
+      var slide = gTrack.querySelector('.gallery-slide');
+      var gap = parseFloat(getComputedStyle(gTrack).columnGap || getComputedStyle(gTrack).gap || 0) || 0;
+      return slide ? slide.getBoundingClientRect().width + gap : gTrack.clientWidth;
+    };
+    var syncButtons = function () {
+      if (!gPrev || !gNext) return;
+      var max = gTrack.scrollWidth - gTrack.clientWidth - 1;
+      gPrev.disabled = gTrack.scrollLeft <= 1;
+      gNext.disabled = gTrack.scrollLeft >= max;
+    };
+    if (gPrev) gPrev.addEventListener('click', function () { gTrack.scrollBy({ left: -step(), behavior: 'smooth' }); });
+    if (gNext) gNext.addEventListener('click', function () { gTrack.scrollBy({ left: step(), behavior: 'smooth' }); });
+    gTrack.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); gTrack.scrollBy({ left: step(), behavior: 'smooth' }); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); gTrack.scrollBy({ left: -step(), behavior: 'smooth' }); }
+    });
+    gTrack.addEventListener('scroll', syncButtons, { passive: true });
+    window.addEventListener('resize', syncButtons);
+    syncButtons();
+  }
 })();
