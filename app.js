@@ -18,9 +18,9 @@
 
   // booking state can be forced for preview via the Tweaks panel:
   // window.__cenaOverride = 'auto' | 'before' | 'open' | 'closed'
-  // ANTEPRIMA: forzato a 'open' per vedere la prenotazione attiva.
-  // Per RIMETTERE IL TIMER (apertura automatica il 20 giugno) -> rimetti 'auto'.
-  window.__cenaOverride = window.__cenaOverride || 'open';
+  // Per anteprima si puo' forzare lo stato: 'open' mostra la prenotazione
+  // attiva. 'auto' = comportamento reale (timer fino al 20 giugno, poi apre).
+  window.__cenaOverride = window.__cenaOverride || 'auto';
 
   function now() { return new Date(); }
 
