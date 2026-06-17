@@ -12,8 +12,8 @@
     // Eventbrite: incolla l'ID NUMERICO dell'evento (lo trovi nell'URL dell'evento
     // pubblicato: .../e/nome-evento-tickets-123456789 -> eventId = '123456789').
     // Se compilato, il checkout si apre in un pop-up sul sito. Se vuoto, si usa il link sotto.
-    eventbriteEventId: '',
-    eventbriteUrl: 'https://www.eventbrite.it/'  // PLACEHOLDER — link di riserva all'evento
+    eventbriteEventId: '1992082521447',
+    eventbriteUrl: 'https://www.eventbrite.it/e/biglietti-cenalonga-2026-1992082521447'  // link di riserva all'evento
   };
 
   // Espongo la config Eventbrite per la pagina di prenotazione (prenota.html).
@@ -23,7 +23,9 @@
 
   // booking state can be forced for preview via the Tweaks panel:
   // window.__cenaOverride = 'auto' | 'before' | 'open' | 'closed'
-  window.__cenaOverride = window.__cenaOverride || 'auto';
+  // ANTEPRIMA: forzato a 'open' per vedere la prenotazione attiva.
+  // Per RIMETTERE IL TIMER (apertura automatica il 20 giugno) -> rimetti 'auto'.
+  window.__cenaOverride = window.__cenaOverride || 'open';
 
   function now() { return new Date(); }
 
