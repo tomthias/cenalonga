@@ -41,9 +41,8 @@
     <a href="#cosa">Cos’è</a>
     <a href="#programma">Programma</a>
     <a href="#menu">Menù</a>
-    <a href="#prenota">Prenota</a>
   </nav>
-  <a id="header-cta" class="btn btn-primary header-cta" href="#prenota">Prenota</a>
+  <a id="header-cta" class="btn btn-primary header-cta js-book" href="#prenota">Prenota</a>
   <button class="nav-toggle" id="nav-toggle" aria-label="Apri il menu" aria-expanded="false" aria-controls="nav-links">
     <span class="nav-toggle-bar"></span>
     <span class="nav-toggle-bar"></span>
@@ -68,7 +67,7 @@
     </div>
     <div class="count-pill" id="hero-count">Mancano <b>…</b> giorni alla cena</div>
     <div class="hero-cta-row">
-      <a class="btn btn-primary btn-lg" href="#prenota">Prenota il tuo posto</a>
+      <a class="btn btn-primary btn-lg js-book" href="#prenota">Prenota il tuo posto</a>
       <a class="btn btn-ghost btn-lg" href="#cosa">Scopri la serata</a>
     </div>
   </div>
@@ -281,7 +280,7 @@
       <p class="b-sub" id="b-sub">I posti sono pochi. Apriamo le prenotazioni <b>sabato 20 giugno</b> e chiudiamo il <b>2 luglio</b>: online su Eventbrite, oppure di persona all’<b>Ufficio Turistico di Amandola</b>, senza commissioni. Torna qui o segnati la data.</p>
       <div class="eyebrow dim" id="b-countdown-cap" style="margin-bottom:18px">All’apertura delle prenotazioni</div>
       <div class="countdown" id="b-countdown"></div>
-      <a id="b-cta" class="btn btn-ghost btn-lg" aria-disabled="true">Prenotazioni dal 20 giugno</a>
+      <a id="b-cta" class="btn btn-ghost btn-lg js-book" aria-disabled="true">Prenotazioni dal 20 giugno</a>
       <p class="b-note" id="b-note">Prenotazioni gestite su Eventbrite, tramite <a href="https://cenalongamandola.com">cenalongamandola.com</a>.</p>
     </div>
   </div>
@@ -358,6 +357,26 @@
     </div>
   </div>
 </footer>
+
+<!-- ===================== MODALE PRENOTAZIONE ===================== -->
+<div class="book-modal" id="book-modal" hidden>
+  <div class="book-modal-backdrop" data-book-close></div>
+  <div class="book-modal-panel" role="dialog" aria-modal="true" aria-label="Prenota il tuo posto">
+    <div class="book-modal-head">
+      <span class="book-modal-grip" aria-hidden="true"></span>
+      <span class="book-modal-title">Prenota il tuo posto</span>
+      <button class="book-modal-close" type="button" aria-label="Chiudi" data-book-close>&times;</button>
+    </div>
+    <div class="book-modal-body">
+      <div id="eb-inline" aria-live="polite"></div>
+      <div id="eb-fallback" class="checkout-fallback">
+        <p>Il modulo di prenotazione non è ancora attivo. Le prenotazioni aprono <b>sabato 20 giugno</b> e chiudono il <b>2 luglio</b>.</p>
+        <p style="margin-top:14px">Quando sono aperte prenoti qui, oppure di persona all’<b>Ufficio Turistico di Amandola</b>, senza commissioni.</p>
+        <a class="btn btn-ghost" id="eb-fallback-link" href="https://www.eventbrite.it/" target="_blank" rel="noopener" style="margin-top:20px">Vai a Eventbrite</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="app.js"></script>
 </body>

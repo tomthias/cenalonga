@@ -16,11 +16,6 @@
     eventbriteUrl: 'https://www.eventbrite.it/e/biglietti-cenalonga-2026-1992082521447'  // link di riserva all'evento
   };
 
-  // Espongo la config Eventbrite per la pagina di prenotazione (prenota.html).
-  window.__cenaEventbrite = { eventId: CFG.eventbriteEventId, url: CFG.eventbriteUrl };
-  // Pagina con il checkout inline: ci puntano i pulsanti "Prenota" quando le prenotazioni sono aperte.
-  var BOOKING_PAGE = 'prenota.html';
-
   // booking state can be forced for preview via the Tweaks panel:
   // window.__cenaOverride = 'auto' | 'before' | 'open' | 'closed'
   // ANTEPRIMA: forzato a 'open' per vedere la prenotazione attiva.
@@ -108,7 +103,7 @@
       ctaEl.removeAttribute('aria-disabled');
       ctaEl.removeAttribute('target');
       ctaEl.removeAttribute('rel');
-      ctaEl.setAttribute('href', BOOKING_PAGE);
+      ctaEl.setAttribute('href', '#prenota');
       ctaEl.classList.remove('btn-ghost'); ctaEl.classList.add('btn-primary');
       noteEl.innerHTML = 'Adulti 30€ · Bambini 15€. Paghi su Eventbrite o all’Ufficio Turistico di Amandola, senza commissioni.';
     } else {
@@ -140,18 +135,10 @@
   var headerCta = document.getElementById('header-cta');
   function renderHeaderCta() {
     if (!headerCta) return;
-    var state = resolveState();
-    if (state === 'open') {
-      headerCta.textContent = 'Prenota';
-      headerCta.setAttribute('href', BOOKING_PAGE);
-      headerCta.removeAttribute('target'); headerCta.removeAttribute('rel');
-      headerCta.style.display = '';
-    } else {
-      headerCta.textContent = 'Prenota';
-      headerCta.setAttribute('href', '#prenota');
-      headerCta.removeAttribute('target');
-      headerCta.style.display = '';
-    }
+    headerCta.textContent = 'Prenota';
+    headerCta.setAttribute('href', '#prenota');
+    headerCta.removeAttribute('target'); headerCta.removeAttribute('rel');
+    headerCta.style.display = '';
   }
 
   // ---- tick -----------------------------------------------------------------
@@ -164,6 +151,79 @@
 
   // expose for tweaks
   window.__cenaRefresh = function () { renderBooking(); renderHeaderCta(); renderHeroPill(); };
+
+  // ---- Booking modal / bottom sheet + Eventbrite embed ----------------------
+  var bookModal = (function () {
+    var modal = document.getElementById('book-modal');
+    if (!modal) return { open: function () {}, close: function () {} };
+    var closeBtn = modal.querySelector('.book-modal-close');
+    var widgetLoaded = false;
+    var lastFocus = null;
+
+    // Carica il checkout Eventbrite dentro la modale, solo alla prima apertura.
+    function loadWidget() {
+      if (widgetLoaded) return;
+      widgetLoaded = true;
+      var fallback = document.getElementById('eb-fallback');
+      var fallbackLink = document.getElementById('eb-fallback-link');
+      if (CFG.eventbriteUrl && fallbackLink) fallbackLink.href = CFG.eventbriteUrl;
+      if (!CFG.eventbriteEventId) return; // niente ID: resta il messaggio di riserva
+      var s = document.createElement('script');
+      s.src = 'https://www.eventbrite.com/static/widgets/eb_widgets.js';
+      s.async = true;
+      s.onload = function () {
+        if (!window.EBWidgets) return;
+        window.EBWidgets.createWidget({
+          widgetType: 'checkout',
+          eventId: CFG.eventbriteEventId,
+          iframeContainerId: 'eb-inline',
+          iframeContainerHeight: 760,
+          onOrderComplete: function () {}
+        });
+        if (fallback) fallback.style.display = 'none';
+      };
+      document.head.appendChild(s);
+    }
+
+    function open() {
+      lastFocus = document.activeElement;
+      loadWidget();
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      // forza un reflow prima di animare l'entrata
+      void modal.offsetWidth;
+      modal.classList.add('is-open');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function close() {
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+      var hide = function () { modal.hidden = true; modal.removeEventListener('transitionend', onEnd); };
+      var onEnd = function (e) { if (e.target === modal || e.propertyName === 'opacity') hide(); };
+      modal.addEventListener('transitionend', onEnd);
+      setTimeout(hide, 360); // fallback se transitionend non scatta
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    modal.addEventListener('click', function (e) {
+      if (e.target.hasAttribute('data-book-close')) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) close();
+    });
+
+    return { open: open, close: close };
+  })();
+
+  // Tutti i pulsanti "Prenota" aprono la modale quando le prenotazioni sono aperte.
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.js-book') : null;
+    if (!btn) return;
+    if (resolveState() !== 'open') return; // chiuse/non ancora aperte: lascia il comportamento di default
+    e.preventDefault();
+    bookModal.open();
+  });
 
   // ---- header scrolled + scroll progress -----------------------------------
   var header = document.querySelector('.site-header');
