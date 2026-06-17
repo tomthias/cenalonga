@@ -3,7 +3,39 @@
    Design system rooted in the official poster
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+/* Font self-hostati (niente chiamate a Google → niente trasferimento IP/cookie).
+   Variabili: Fraunces 300-700 (normale+corsivo), Hanken Grotesk 400-700.
+   Sottoinsiemi latin + latin-ext: coprono l'italiano (accenti, virgolette curve, €). */
+@font-face{
+  font-family:'Fraunces';font-style:normal;font-weight:300 700;font-display:swap;
+  src:url('assets/fonts/fraunces-normal-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:'Fraunces';font-style:normal;font-weight:300 700;font-display:swap;
+  src:url('assets/fonts/fraunces-normal-latin-ext.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face{
+  font-family:'Fraunces';font-style:italic;font-weight:300 700;font-display:swap;
+  src:url('assets/fonts/fraunces-italic-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:'Fraunces';font-style:italic;font-weight:300 700;font-display:swap;
+  src:url('assets/fonts/fraunces-italic-latin-ext.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face{
+  font-family:'Hanken Grotesk';font-style:normal;font-weight:400 700;font-display:swap;
+  src:url('assets/fonts/hankengrotesk-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:'Hanken Grotesk';font-style:normal;font-weight:400 700;font-display:swap;
+  src:url('assets/fonts/hankengrotesk-latin-ext.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
 
 :root{
   /* Palette from the poster */
@@ -82,6 +114,14 @@ section{position:relative}
 #eb-inline:not(:empty){min-height:480px}
 .checkout-fallback{padding:clamp(28px,4vw,44px)}
 .checkout-fallback p{max-width:54ch}
+
+/* pagina legale (privacy.html) */
+.legal-body{margin-top:clamp(32px,5vw,56px)}
+.legal-body h2{font-size:clamp(1.5rem,3vw,2.1rem);margin-top:clamp(34px,4vw,52px)}
+.legal-body p{margin-top:16px}
+.legal-body a{color:var(--gold-2);text-decoration:underline;text-underline-offset:2px}
+.legal-body a:hover{color:var(--gold)}
+.legal-updated{margin-top:clamp(34px,4vw,52px);font-size:.86rem;color:var(--cream-faint)}
 
 /* ============================================================
    HEADER
@@ -387,6 +427,8 @@ section{position:relative}
   padding:40px 0;margin-top:clamp(48px,6vw,80px);border-top:1px solid var(--line);
   font-size:.82rem;color:var(--cream-faint);
 }
+.foot-bottom a{color:var(--cream-dim);text-decoration:underline;transition:color .2s}
+.foot-bottom a:hover{color:var(--cream)}
 
 /* ============================================================
    reveal on scroll
@@ -556,8 +598,15 @@ section{position:relative}
   background:var(--navy-2);
 }
 .book-modal-body #eb-inline:empty{ min-height:0; }
+.eb-frame{ display:block; width:100%; height:78vh; max-height:840px; border:0; background:#fff; }
 .book-modal-body .checkout-fallback{ padding:clamp(24px,4vw,36px); }
 .book-modal-body .checkout-fallback p{ max-width:54ch; }
+.book-modal-note{
+  margin:0; padding:14px clamp(18px,4vw,28px);
+  font-size:.78rem; line-height:1.5; color:var(--cream-faint);
+  border-top:1px solid var(--line); background:var(--navy-3);
+}
+.book-modal-note a{ color:var(--cream-dim); text-decoration:underline; }
 
 /* Bottom sheet su mobile */
 @media (max-width:640px){

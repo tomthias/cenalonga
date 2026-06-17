@@ -160,29 +160,24 @@
     var widgetLoaded = false;
     var lastFocus = null;
 
-    // Carica il checkout Eventbrite dentro la modale, solo alla prima apertura.
+    // Carica la pagina evento Eventbrite (info + "Ricordamelo" prima della
+    // vendita, biglietti dal 20 giugno) in un iframe, solo alla prima apertura.
     function loadWidget() {
       if (widgetLoaded) return;
       widgetLoaded = true;
+      var host = document.getElementById('eb-inline');
       var fallback = document.getElementById('eb-fallback');
       var fallbackLink = document.getElementById('eb-fallback-link');
       if (CFG.eventbriteUrl && fallbackLink) fallbackLink.href = CFG.eventbriteUrl;
-      if (!CFG.eventbriteEventId) return; // niente ID: resta il messaggio di riserva
-      var s = document.createElement('script');
-      s.src = 'https://www.eventbrite.com/static/widgets/eb_widgets.js';
-      s.async = true;
-      s.onload = function () {
-        if (!window.EBWidgets) return;
-        window.EBWidgets.createWidget({
-          widgetType: 'checkout',
-          eventId: CFG.eventbriteEventId,
-          iframeContainerId: 'eb-inline',
-          iframeContainerHeight: 760,
-          onOrderComplete: function () {}
-        });
-        if (fallback) fallback.style.display = 'none';
-      };
-      document.head.appendChild(s);
+      if (!host || !CFG.eventbriteUrl) return; // niente URL: resta il messaggio di riserva
+      var iframe = document.createElement('iframe');
+      iframe.src = CFG.eventbriteUrl;
+      iframe.title = 'Prenotazione CenaLonga su Eventbrite';
+      iframe.className = 'eb-frame';
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'payment');
+      host.appendChild(iframe);
+      if (fallback) fallback.style.display = 'none';
     }
 
     function open() {
